@@ -1,1 +1,0 @@
-# teakneat-mobile
