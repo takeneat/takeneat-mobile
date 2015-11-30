@@ -10,14 +10,15 @@ Install
 
 ::
 
-    $ mkvirtualenv takeneat-mobile
+    $ virtualenv env
 
 
 # Install nodeenv
 
 ::
 
-    $ nodeenv takeneat-mobile
+    $ pip install nodeenv
+    $ nodeenv -p --prebuilt
 
 
 # Initialize ionic app
