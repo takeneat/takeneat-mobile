@@ -1,0 +1,45 @@
+<ion-view view-title="Home">
+  <ion-content>
+
+  	<div class="row text-center" ng-hide="requestDone">
+  		<div class="col">
+  			<ion-spinner icon="spiral" ng-hide="showNoProduct"></ion-spinner>
+	    </div>
+
+	</div>
+  	<div class="row text-center" ng-show="showNoProduct">
+  		<div class="col">
+		    Oops, there is nothing to eat around you.
+		    Please come back later !
+	    </div>
+  	</div>
+	<div class="list card" ng-repeat="product in products">
+
+	  <div class="item item-avatar">
+	    <img src="img/mock/cook_{{product.cookId}}.jpg"/>
+	    <h2><span class="pull-left">{{product.name}}</span> <span class="pull-right">{{product.price}}€</span></h2>
+	    <p>{{product.cookName}}</p>
+	  </div>
+
+	  <div class="item item-image">
+	    <img src="img/mock/product_{{product.id}}.jpg"/>
+	  </div>
+
+	  <a class="item item-icon-right positive" href="#">
+	    Order now
+	    <i class="icon ion-chevron-right"></i>
+	  </a>
+
+  	</div>
+  	
+    <!--
+    <ion-list>
+      <ion-item ng-repeat="product in products" href="#/app/products/{{product.id}}">
+		
+
+      </ion-item>
+
+    </ion-list>
+    -->
+  </ion-content>
+</ion-view>
