@@ -1,53 +1,39 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope,$rootScope,$state) {
+  $scope.userId = $rootScope.userId;
+})
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
+.controller('LoginCtrl', function($scope,$rootScope,$http,$state,appConfig) {
   // Form data for the login modal
   $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
+  $scope.loginFailed = false;
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+    $scope.loginFailed = false;
+    var loginUrl = appConfig.baseApiUrl + '/users/login';
+    $http({
+      method: 'POST',
+      url: loginUrl,
+      data : $scope.loginData
+    }).then(function successCallback(response) {
+      $rootScope.userId = response.data;
+      $state.go('app.home');
+    }, function errorCallback(response) {
+      $scope.loginFailed = true;
+    });
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
   };
 })
 
-.controller('HomeCtrl', function($scope,$http) {
-  var productsUrl = 'http://takeneat-services.herokuapp.com/api/v1/products/search';
-  //var productsUrl = 'http://localhost:8080/api/v1/products/search';
+.controller('HomeCtrl', function($scope,$http,appConfig) {
+  var productsUrl = appConfig.baseApiUrl + '/products/search';
   $scope.requestDone = false;
   $http({
-  method: 'POST',
-  url: productsUrl
+    method: 'POST',
+    url: productsUrl
   }).then(function successCallback(response) {
     $scope.requestDone = true;
     $scope.products = response.data;
@@ -58,16 +44,18 @@ angular.module('starter.controllers', [])
     $scope.showNoProduct = true;
     $scope.requestDone = true;
   });
-  /*
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];*/
+
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('ProfileCtrl', function($scope,$stateParams,$http,appConfig) {
+  var userId = $stateParams.userId
+  $scope.userId = userId;
+  var profileUrl = appConfig.baseApiUrl + '/users/' + userId;
+  $http({
+    method: 'GET',
+    url: profileUrl
+  }).then(function successCallback(response) {
+    $scope.userData = response.data;
+  }, function errorCallback(response) {
+  });
 });

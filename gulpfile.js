@@ -6,6 +6,7 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var preprocess = require('gulp-preprocess');
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -49,3 +50,16 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('prod', function() {
+  gulp.src('./gulp_preprocess_me/*.js')
+  .pipe(preprocess({context: { NODE_ENV: 'PRODUCTION'}})) //To set environment variables in-line
+  .pipe(gulp.dest('./www/js'));
+});
+
+gulp.task('dev', function() {
+  gulp.src('./gulp_preprocess_me/*.js')
+  .pipe(preprocess({context: { NODE_ENV: 'DEVELOPMENT', DEBUG: true}}))
+  .pipe(gulp.dest('./www/js'));
+});
+

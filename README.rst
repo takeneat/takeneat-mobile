@@ -25,3 +25,12 @@ Install
 
 Follow instructions on `ionic website  <http://ionicframework.com/getting-started/>`_
 
+
+# Environment specific
+::
+
+    $ gulp dev
+
+::
+
+    $ gulp 
