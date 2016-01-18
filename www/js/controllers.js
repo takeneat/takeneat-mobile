@@ -4,6 +4,17 @@ angular.module('starter.controllers', [])
   $scope.userId = $rootScope.userId;
 })
 
+.controller('MenuCtrl', function($scope,$ionicHistory,$state) {
+  $scope.logout = function() {
+    $ionicHistory.clearCache().then(function() {
+      //now you can clear history or goto another state if you need
+      $ionicHistory.clearHistory();
+      $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+      $state.go('login');
+    })
+  };
+})
+
 .controller('LoginCtrl', function($scope,$rootScope,$http,$state,appConfig) {
   // Form data for the login modal
   $scope.loginData = {};
