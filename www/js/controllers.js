@@ -55,7 +55,6 @@ angular.module('starter.controllers', [])
     $scope.showNoProduct = true;
     $scope.requestDone = true;
   });
-
 })
 
 .controller('ProfileCtrl', function($scope,$stateParams,$http,appConfig) {
@@ -69,4 +68,20 @@ angular.module('starter.controllers', [])
     $scope.userData = response.data;
   }, function errorCallback(response) {
   });
-});
+})
+
+.controller('ProductCtrl', function($scope,$stateParams,$http,appConfig) {
+  var productId = $stateParams.productId
+  $scope.productId = productId;
+  var productUrl = appConfig.baseApiUrl + '/products/' + productId;
+  $http({
+    method: 'GET',
+    url: productUrl
+  }).then(function successCallback(response) {
+    $scope.productData = response.data;
+  }, function errorCallback(response) {
+  });
+})
+
+
+;

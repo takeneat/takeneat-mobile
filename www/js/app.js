@@ -56,6 +56,15 @@ var app = angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'ProfileCtrl'
       }
     }
+  })
+  .state('app.product', {
+    url: '/products/:productId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/product.html',
+        controller: 'ProductCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

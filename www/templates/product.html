@@ -1,0 +1,33 @@
+<ion-view view-title="Product">
+  <ion-content>
+
+  	<div class="text-center">
+		<img src="img/mock/product_{{productData.id}}.jpg"/>
+		<h4>{{productData.name}}</h4>
+	</div>
+
+	<ul class="list">
+	   	<li class="item item-icon-left">
+		    <i class="icon ion-pinpoint"></i>
+		    <span class="pull-left">Distance</span>
+			<span class="pull-right"><strong>{{productData.distance | number:0}} m</strong></span>
+	    </li>
+	    <li class="item item-icon-left">
+	      <i class="icon ion-social-euro"></i>
+	      <span class="pull-left">Price</span>
+		  <span class="pull-right"><strong>{{productData.price | currency}}</strong></span>
+	    </li>
+	    <li class="item item-icon-left">
+	    	<i class="icon ion-android-time"></i>
+		    <span class="pull-left">Posting date</span>
+		    <span class="pull-right"><strong>{{productData.creationDate | date:'yyyy-MM-dd HH:mm:ss Z'}}</strong></span>
+	    </li>
+	</ul>
+
+	<button class="button button-block button-positive">
+	  Order
+	</button>
+
+	
+  </ion-content>
+</ion-view>
