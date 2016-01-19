@@ -1,11 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope,$rootScope,$state) {
-  $scope.userId = $rootScope.userId;
-})
+.controller('AppCtrl', function($scope,$rootScope,$state,$ionicHistory) {
+  $scope.$on('$ionicView.beforeEnter', function(){
+    console.log('test');
+    if (!$rootScope.userId) {
+      $state.go('login');
+    } else {
+      $scope.userId = $rootScope.userId;
+    }
+  });
 
-.controller('MenuCtrl', function($scope,$ionicHistory,$state) {
-  $scope.logout = function() {
+  $scope.doLogout = function() {
     $ionicHistory.clearCache().then(function() {
       //now you can clear history or goto another state if you need
       $ionicHistory.clearHistory();
@@ -55,6 +60,25 @@ angular.module('starter.controllers', [])
     $scope.showNoProduct = true;
     $scope.requestDone = true;
   });
+
+  $scope.doRefresh = function() {
+    //$scope.requestDone = false;
+    $http({
+      method: 'POST',
+      url: productsUrl
+    }).then(function successCallback(response) {
+      //$scope.requestDone = true;
+      $scope.products = response.data;
+      //if (!response.data) {
+      //  $scope.showNoProduct = true;
+      //}
+    }, function errorCallback(response) {
+      //$scope.showNoProduct = true;
+      //$scope.requestDone = true;
+    });
+    $scope.$broadcast('scroll.refreshComplete');
+    $scope.$apply()
+  };
 })
 
 .controller('ProfileCtrl', function($scope,$stateParams,$http,appConfig) {

@@ -1,6 +1,9 @@
 <ion-view view-title="Home">
   <ion-content>
 
+  	 <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()">
+    </ion-refresher>
+
   	<div class="row text-center" ng-hide="requestDone">
   		<div class="col">
   			<ion-spinner icon="spiral" ng-hide="showNoProduct"></ion-spinner>
@@ -14,11 +17,10 @@
 	    </div>
   	</div>
 
-	<div class="list card" ng-repeat="product in products">
-
+	<div class="list card" ng-repeat="product in products | orderBy: 'creationDate' : true">
 	  <div class="item item-avatar">
-	    <img src="img/mock/cook_{{product.cookId}}.jpg"/>
-	    <h2><span class="pull-left">{{product.name}}</span> <span class="pull-right">{{product.price}}€</span></h2>
+	    <img src="img/mock/cook_{{product.cookId}}.jpg" width="100%"/>
+	    <h2><span class="pull-left">{{product.name}}</span> <span class="pull-right">{{product.price | currency}}</span></h2>
 	    <p>{{product.cookName}}</p>
 	  </div>
 
